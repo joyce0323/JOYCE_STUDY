@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>  <!-- classPathEntry:数据库的JDBC驱动的jar包地址 -->
+    <properties resource="mybatis-generator/generator.properties"/>
+    <classPathEntry location="${generator.jdbcPath}"/>
+    <context id="db2java" targetRuntime="MyBatis3">
+        <commentGenerator>    <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="false"/>
+        </commentGenerator>
+        <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+        <jdbcConnection driverClass="${generator.jdbc.driverClassName}"
+                        connectionURL="${generator.jdbc.url}"
+                        userId="${generator.jdbc.username}"
+                        password="${generator.jdbc.password}">
+        </jdbcConnection>
+
+        <!-- 默认false，把 JDBC DECIMAL 和 NUMERIC 类型解析为 Integer true，把 JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- targetProject:生成PO类的位置 -->
+        <javaModelGenerator targetPackage="${entity.package}"
+                            targetProject="${entity.target.project}">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="true"/>
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- targetProject:自动mapper的位置 -->
+        <sqlMapGenerator  targetPackage="${mapper.package}"
+                         targetProject="${mapper.target.project}">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- targetProject:自动mapper.xml的位置 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="${xml.package}"
+                             targetProject="${xml.target.project}">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <table schema="${jdbc_schema}" tableName="${jdbc_tableName}" domainObjectName="${entity_name}"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"/>
+
+    </context>
+</generatorConfiguration>
